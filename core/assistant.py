@@ -1,5 +1,11 @@
 from datetime import datetime
-
+from modules.system_info import (
+    get_hostname,
+    get_os_info,
+    get_disk_usage,
+    get_memory_usage,
+    get_uptime,
+)
 
 
 class Nova:
@@ -26,15 +32,27 @@ class Nova:
                 "\nAvailable Commands\n"
                 "------------------\n"
                 "help      Display avaiable commands\n"
-                "status    Display NOVA status\n" 
+                "status    Display NOVA status\n"
+                "system    Display system information\n" 
                 "time      Display current system time\n"
                 "version   Dispaly NOVA version\n" 
                 "exit      Display Shut down NOVA"
             )
 
-
         if command == "status":
             return "NOVA core systems operational."
+
+        if command == "system":
+            return (
+                "\nSystem Information\n"
+                "------------------\n"
+                f"Hostname: {get_hostname()}\n"
+                f"OS: {get_os_info()}\n"
+                f"Memory: {get_memory_usage()}\n"
+                f"Disk: {get_disk_usage()}\n"
+                f"Uptime: {get_uptime()}"
+            )
+
 
         if command == "time":
             return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
