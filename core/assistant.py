@@ -1,3 +1,4 @@
+from config.settings import NOVA_NAME, NOVA_VERSION
 from datetime import datetime
 from modules.system_info import (
     get_hostname,
@@ -10,8 +11,8 @@ from core.logger import logger
 
 class Nova:
     def __init__(self):
-        self.name = "NOVA"
-        self.version = "0.1.0"
+        self.name = NOVA_NAME
+        self.version = NOVA_VERSION
         self.running = False
         self.commands = {
             "help": self.command_help,
