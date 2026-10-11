@@ -30,7 +30,7 @@ def main():
             print("\nShutting down NOVA.")
             break
 
-        except Exeption as error:
+        except Exception as error:
             logger.exception(f"Unexpected error: {error}")
             print("An unexpected error occurred. Check logs/nova.log.")
 

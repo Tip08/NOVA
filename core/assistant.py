@@ -1,3 +1,4 @@
+from modules.network_info import get_ip_addresses, get_default_gateway
 from config.settings import NOVA_NAME, NOVA_VERSION
 from datetime import datetime
 from modules.system_info import (
@@ -6,6 +7,11 @@ from modules.system_info import (
     get_disk_usage,
     get_memory_usage,
     get_uptime,
+)
+from modules.network_info import (
+    get_ip_addresses,
+    get_default_gateway,
+    get_interfaces,
 )
 from core.logger import logger
 
@@ -18,10 +24,30 @@ class Nova:
             "help": self.command_help,
             "status": self.command_status,
             "system": self.command_system,
+            "network": self.command_network,
             "time": self.command_time,
             "version": self.command_version,
             "exit": self.command_exit,
 }
+
+    def command_network(self):
+        addresses = get_ip_addresses()
+        gateway =  get_default_gateway()
+        interfaces = get_interfaces()
+
+        address_text = "\n".join(addresses)
+        interface_text = "\n".join(interfaces)
+
+        return (
+            "\nNetwork Information\n"
+            "---------------------\n"
+            f"{address_text}\n"
+            f"Default Gateway: {gateway}"
+            "\nInterfaces\n"
+            "------------\n"
+            f"{interface_text}"
+        )
+
     def command_help(self):
         return (
             "\nAvailable Commands\n" 
@@ -29,6 +55,7 @@ class Nova:
             "help     Display available commands\n"
             "status   Display NOVA status\n"
             "system   Display information\n"
+            "network  Display local network information\n"
             "time     Display current system time\n"
             "version  Dispaly NOVA version\n"
             "exit     Shut down NOVA"
