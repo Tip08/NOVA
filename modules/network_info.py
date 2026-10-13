@@ -72,6 +72,16 @@ def get_interfaces():
 
     return interfaces
 
+def get_hostname():
+    return socket.gethostname()
 
+def get_fqdn():
+    return socket.getfqdn()
+
+def resolve_hostname(hostname):
+    try:
+        return socket.gethostbyname(hostname)
+    except socket.gaierror:
+        return "Resolution failed"
 
 

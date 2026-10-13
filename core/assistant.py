@@ -12,6 +12,9 @@ from modules.network_info import (
     get_ip_addresses,
     get_default_gateway,
     get_interfaces,
+    get_hostname,
+    get_fqdn,
+    resolve_hostname
 )
 from core.logger import logger
 
@@ -59,6 +62,7 @@ class Nova:
             "time     Display current system time\n"
             "version  Dispaly NOVA version\n"
             "exit     Shut down NOVA"
+            "resolve Resolve a hostname to an IPV4 address\n"
         )
     def command_system(self):
         return (
@@ -94,12 +98,23 @@ class Nova:
         return "Shutting down Nova."
 
     def process_command(self, command):
-        command = command.strip().lower()
-        logger.info(f"Command received: {command}")
+        command = command.strip()
 
-        command_function = self.commands.get(command)
+        logger.info(f"Command received: {command}")
+        parts = command.split(maxsplit=1)
+        command_name = parts[0].lower()
+        argument = parts[1] if len(parts) > 1 else None
+
+        if command_name == "resolve":
+            if argument:
+                return self.command_resolve(argument) 
+            return "Usage: resolve <hostname>"
+        command_function = self.commands.get(command_name)
 
         if command_function:
             return command_function()
 
         return f"Unknown command: {command}" 
+
+    def command_resolve(self, hostname):
+        return f"{hostname} -> {resolve_hostname(hostname)}"
