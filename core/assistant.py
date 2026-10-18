@@ -37,6 +37,8 @@ class Nova:
         addresses = get_ip_addresses()
         gateway =  get_default_gateway()
         interfaces = get_interfaces()
+        hostname = get_hostname()
+        fqdn = get_fqdn() 
 
         address_text = "\n".join(addresses)
         interface_text = "\n".join(interfaces)
@@ -44,6 +46,8 @@ class Nova:
         return (
             "\nNetwork Information\n"
             "---------------------\n"
+            f"Hostname: {hostname}\n"
+            f"FQDN: {fqdn}\n"
             f"{address_text}\n"
             f"Default Gateway: {gateway}"
             "\nInterfaces\n"
